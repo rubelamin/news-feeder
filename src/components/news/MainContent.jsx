@@ -17,7 +17,7 @@ export default function MainContent() {
 	}
 
 	if (error) {
-		return <LoadingError text={"Error.."} message={error} />;
+		return <LoadingError text={"Fetching Error.."} message={error} />;
 	}
 
 	return (
