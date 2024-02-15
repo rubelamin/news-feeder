@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { NewsContext, SingleNews } from "../../context/newsContext";
 import FocusedNews from "./FocusedNews";
+import LoadingError from "./LoadingError";
 import NewsModal from "./NewsModal";
 import NewsNoThumb from "./NewsNoThumb";
 import NewsWithThumb from "./NewsWithThumb";
@@ -12,11 +13,11 @@ export default function MainContent() {
 	const { modalNews } = useContext(SingleNews);
 
 	if (loading.state) {
-		return <div className="text-center py-15 ">{loading.message}</div>;
+		return <LoadingError text={"Loading..."} message={loading.message} />;
 	}
 
 	if (error) {
-		return <p className="text-center ">There something error....</p>;
+		return <LoadingError text={"Error.."} message={error} />;
 	}
 
 	return (

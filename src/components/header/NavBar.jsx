@@ -5,7 +5,7 @@ export default function NavBar() {
 	const { setTerms } = useContext(NewsContext);
 
 	function handleClick(value) {
-		setTerms((prev) => ({ ...prev, cat: value }));
+		setTerms(() => ({ cat: value, search: "" }));
 	}
 	return (
 		<ul className="flex flex-wrap items-center justify-center gap-5 text-xs font-semibold lg:text-base">

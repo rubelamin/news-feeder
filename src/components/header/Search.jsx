@@ -8,14 +8,19 @@ export default function Search() {
 	const [text, setText] = useState("");
 
 	const doSearch = useDebounce((serachText) => {
-		setTerms((prev) => ({ ...prev, search: serachText }));
+		setTerms(() => ({ cat: null, search: serachText }));
 	}, 1000);
 
 	function handleChange(e) {
 		const value = e.target.value;
+
 		setText(value);
 		doSearch(value);
 	}
+
+	const clearText = () => {
+		setText("");
+	};
 
 	return (
 		<div className="flex items-center space-x-3 lg:space-x-8">
@@ -36,7 +41,8 @@ export default function Search() {
 						placeholder="Search"
 						value={text}
 						onChange={handleChange}
-						className="w-[30px] focus:w-[200px] bg-transparent py-3 pl-12 pr-4 text-gray-500 focus:border rounded-md outline-none focus:bg-white focus:border-[#00d991]"
+						onBlur={clearText}
+						className="w-[30px] focus:w-[200px] bg-transparent py-3 pl-12 pr-4 text-gray-500 focus:border rounded-md outline-none focus:bg-white focus:border-[#00d991] transition-all duration-300"
 					/>
 				</div>
 			</form>

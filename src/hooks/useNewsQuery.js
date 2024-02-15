@@ -13,53 +13,54 @@ const useNewsQuery = () => {
 		search: "",
 	});
 
-	const fetchNewsData = async (cat, search) => {
-		try {
-			setLoading({
-				...loading,
-				state: true,
-				message: "Fetching news...",
-			});
-
-			let qUrl;
-			if (cat === null && search === "") {
-				qUrl = import.meta.env.VITE_NEWS_FULL;
-			} else if (cat !== null && search === "") {
-				qUrl = `${import.meta.env.VITE_NEWS_FULL}?category=${cat}`;
-			} else if (cat === null && search !== "") {
-				qUrl = `${import.meta.env.VITE_NEWS_SEARCH}=${search}`;
-			}
-
-			const response = await fetch(`${qUrl}`);
-
-			if (!response.ok) {
-				throw new Error("There something wrong!");
-			}
-
-			const data = await response.json();
-
-			if (search !== "") {
-				setNewsData(data?.result);
-			} else {
-				setNewsData(data?.articles);
-			}
-		} catch (err) {
-			setError(err);
-		} finally {
-			setLoading({
-				...loading,
-				state: false,
-				message: "",
-			});
-		}
-	};
-
 	useEffect(() => {
-		console.log("okk");
+		console.log(terms.search);
 		setLoading({
 			state: true,
 			message: "Loading news...",
 		});
+
+		const fetchNewsData = async (cat, search) => {
+			try {
+				setLoading({
+					state: true,
+					message: "Fetching news...",
+				});
+
+				let qUrl;
+				if (cat === null && search === "") {
+					qUrl = import.meta.env.VITE_NEWS_FULL;
+				} else if (cat !== null && search === "") {
+					qUrl = `${import.meta.env.VITE_NEWS_FULL}?category=${cat}`;
+				} else if (cat === null && search !== "") {
+					qUrl = `${import.meta.env.VITE_NEWS_SEARCH}=${search}`;
+				}
+
+				console.log(qUrl);
+
+				const response = await fetch(`${qUrl}`);
+
+				if (!response.ok) {
+					throw new Error("There something wrong!");
+				}
+
+				const data = await response.json();
+
+				if (search !== "") {
+					setNewsData(data?.result);
+				} else {
+					setNewsData(data?.articles);
+				}
+			} catch (err) {
+				setError(err);
+			} finally {
+				setLoading({
+					state: false,
+					message: "",
+				});
+			}
+		};
+
 		fetchNewsData(terms.cat, terms.search);
 	}, [terms.cat, terms.search]);
 
